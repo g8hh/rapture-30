@@ -54,7 +54,7 @@
 			<table><tr><td v-for="a in auto_data" v-if="a.unl()" class="autoDiv"><h3>{{a.name}}</h3><br><br><input type="checkbox" v-model="player.autos[a.id]"></input></td></tr></table>
 		</div>
 		<div v-if="tab=='Rapture'">
-			情感 <span class="bigtxt rp">{{formatWhole(player.rapture)}}</span>, 使得您的点数变为其 <span class="bigtxt rp">{{format(tmp.sr)}}</span>次根<br><br>
+			情感 <span class="bigtxt rp">{{formatWhole(player.rapture)}}</span>, 使得您的精神(最终值)变为其 <span class="bigtxt rp">{{format(tmp.sr)}}</span>次根<br><br>
 			<button class="rapture unlocked" v-if="player.spirit.gte(tmp.sc)" onclick="doRapture()">飞升以获得下个情感</button><br><br>
 			您有 <span class="bigtxt rp">{{formatWhole(player.raptureEnergy)}}</span> 情感能量<br><br>
 			<button v-if="player.rapture.gt(0)" style="cursor:pointer;height:60px;" onclick="doRapture(true)">强制情感重置</button>
