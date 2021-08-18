@@ -18,7 +18,7 @@ function getSpiritBoostEffectEach(n) {
 }
 
 function getSpiritBoostEffDesc(n) {
-	if (n==1) return "Multiply Spirit gain speed by "+format(getSpiritBoostEffectEach(1))
+	if (n==1) return "精神获取速率x "+format(getSpiritBoostEffectEach(1))
 	else if (n==2) return "每一个精神倍增器使得精神获取+ "+formatWhole(getSpiritBoostEffectEach(2).sub(1).times(100))+"%";
 	else return spiritBoosts[n-1][2];
 }
