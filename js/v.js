@@ -24,6 +24,7 @@ function loadVue() {
 			auto_data,
 			spells,
 			activateSpell,
+                        tabName,
         }
 	})
 }
