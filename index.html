@@ -47,7 +47,7 @@
 		<div v-if="tab=='Main'">
 			您有 <span class="bigtxt spirit">{{format(player.spirit)}}</span> 精神 (上限是 {{format(tmp.sc)}}).<br><br>
 			您有 <span class="spirit">{{formatWhole(player.boosts)}}</span> 精神倍增器<br>
-			<button v-bind:class="{big: true, locked: player.spirit.lt(getSpiritBoostReq()), unlocked: player.spirit.gte(getSpiritBoostReq())}" onclick="buySpiritBoost()">{{getSpiritBoostDesc()}}<br><br>Cost: {{format(getSpiritBoostReq())}}</button><br><br>
+			<button v-bind:class="{big: true, locked: player.spirit.lt(getSpiritBoostReq()), unlocked: player.spirit.gte(getSpiritBoostReq())}" onclick="buySpiritBoost()">{{getSpiritBoostDesc()}}<br><br>价格: {{format(getSpiritBoostReq())}}</button><br><br>
 			<div v-for="(b,i) in spiritBoosts" v-if="tmp.sb[i+1].rewards.plus(tmp.esb[i+1]).gt(0)">{{getSpiritBoostEffDesc(i+1)}} <b>[{{formatWhole(tmp.sb[i+1].rewards)+(tmp.esb[i+1].gt(0)?("+"+format(tmp.esb[i+1])):"")}}]</b>: {{format(tmp.sb[i+1].eff)}}x</div>
 		</div>
 		<div v-if="tab=='Auto'">
