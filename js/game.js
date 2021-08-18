@@ -5,6 +5,15 @@ var version = 0.1;
 var gameID = "raptureThingy";
 var tab = "Main";
 var allTabs = ["Options", "Main", "Auto", "Rapture", "Greater Worlds", "Arcana"] // shhhhhhhhhh, you're seeing spoilers...
+var tabName ={
+    "Options":"设置",
+    "Main":"主页面",
+    "Auto":"自动化",
+    "Rapture":"情感",
+    "Greater Worlds":"更大的世界",
+    "Arcana":"奥秘"
+}
+
 var tabUnlocks = {
 	Options() { return true },
 	Main() { return true },
