@@ -1,15 +1,15 @@
 const worlds = {
 	heaven: {
 		name: "heaven",
-		cName: "Heaven",
+		cName: "天堂",
 		col: "#13615c",
 		unl() { return true; },
 		boosts: [
-			"Spirit is gained 1e11x faster, but this decreases over time",
-			"Purchasing a Spirit Boost gives 5s of production instantly",
-			"The Rapture reduction is brought to the 1.1th root, but this weakens over time",
-			"Spirit Boosts are cheaper based on your Hell Boosts",
-			"Hell Boosts after 3 add to each Spirit Boost effect",
+			"精神x1e11, 该效果随时间变弱",
+			"购买精神倍增器后立即获得5秒的进度",
+			"情感减益变为其1.1次根,但该效果随时间变弱",
+			"基于地狱减少精神倍增器的价格",
+			"大于3的地狱加成精神倍增器效果",
 		],
 		boostCurrent: {
 			0() { return Decimal.div(1e11, Math.log(Math.max(player.raptureTime, 1)+1)/Math.log(1.0005)+1).max(1) },
@@ -19,9 +19,9 @@ const worlds = {
 		},
 		boostEffSuffix: {
 			0: "x",
-			2: "th root",
-			3: "x cheaper",
-			4: " added",
+			2: "次根",
+			3: "x 便宜",
+			4: " 增加",
 		},
 		buyBoost() {
 			if (player.worldBoosts[this.name].gte(this.boosts.length)) return;
@@ -42,15 +42,15 @@ const worlds = {
 	},
 	arcana: {
 		name: "arcana",
-		cName: "Arcana",
+		cName: "奥秘",
 		col: "#50135e",
 		unl() { return player.rapture.gte(25) },
 		boosts: [
-			"Time Warp's effect is stronger over time",
-			"Raptures boost the Arcanic Soul limit",
-			"Unlock a new Spell",
-			"Strike Control's effect is stronger based on your Spirit",
-			"Unspent Arcanic Soul boosts Spirit gain speed",
+			"时间迁越效果随时间变强",
+			"情感加成奥秘灵魂上限",
+			"解锁新法术",
+			"突破控制的效果随精神变强",
+			"未使用的奥秘灵魂加成精神获取",
 		],
 		boostCurrent: {
 			0() { return Decimal.log2(player.raptureTime+1).plus(1) },
@@ -83,15 +83,15 @@ const worlds = {
 	},
 	hell: {
 		name: "hell",
-		cName: "Hell",
+		cName: "地狱",
 		col: "#5c1613",
 		unl() { return true; },
 		boosts: [
-			"Spirit is gained 2,000x faster, and this increases over time",
-			"Unlock Automation",
-			"The Rapture reduction is brought to the 1.015th root, but this gets stronger over time",
-			"Spirit Boosts are cheaper based on your Heaven Boosts",
-			"Heaven Boosts after 3 add to each Spirit Boost effect",
+			"精神x2000，效果随时间变强",
+			"解锁自动化",
+			"情感减益变为其1.015次根，该效果随时间变强",
+			"精神倍增器基于天堂变得更便宜",
+			"大于3的天堂加成精神倍增器效果",
 		],
 		boostCurrent: {
 			0() { return Decimal.mul(2e3, Math.log(Math.max(player.raptureTime, 1)+1)/Math.log(1.0005)+1) },
@@ -101,9 +101,9 @@ const worlds = {
 		},
 		boostEffSuffix: {
 			0: "x",
-			2: "th root",
-			3: "x cheaper",
-			4: " added",
+			2: "次根",
+			3: "x 便宜",
+			4: " 增加",
 		},
 		buyBoost() {
 			if (player.worldBoosts[this.name].gte(this.boosts.length)) return;
@@ -128,7 +128,7 @@ function worldBoostActive(type, n) { return player.worldBoosts[type].gte(n) && w
 function worldBoostEff(type, n) { return tmp.wb?tmp.wb[type][n-1]:new Decimal(1) }
 
 function respecWorldBoosts() {
-	if (!confirm("Are you sure you want to respec your World Boosts? This will force a Rapture reset!")) return;
+	if (!confirm("您确定您要重置世界吗?这会进行一次情感重置!")) return;
 	player.worldsSpent = new Decimal(0);
 	for (let i=0;i<Object.keys(player.worldBoosts).length;i++) player.worldBoosts[Object.keys(player.worldBoosts)[i]] = new Decimal(0);
 	doRapture(true);

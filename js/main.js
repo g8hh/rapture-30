@@ -1,8 +1,8 @@
 var spiritBoosts = [
-	[1, 4, "Double Spirit gain speed", function(x) { return Decimal.pow(getSpiritBoostEffectEach(1), x) }],
-	[2, 4, "Each Spirit Boost boosts Spirit gain speed by 10%", function(x) { return Decimal.pow(getSpiritBoostEffectEach(2), player.boosts.times(x)) }],
-	[3, 4, "Spirit boosts its own gain", function(x) { return player.spirit.plus(1).log10().plus(1).pow(x) }],
-	[4, 4, "Spirit gain speed is multiplied by Spirit Boosts", function(x) { return player.boosts.max(1).pow(x) }],
+	[1, 4, "加倍精神获取速率", function(x) { return Decimal.pow(getSpiritBoostEffectEach(1), x) }],
+	[2, 4, "每一个精神倍增器使您的精神增长快10%", function(x) { return Decimal.pow(getSpiritBoostEffectEach(2), player.boosts.times(x)) }],
+	[3, 4, "精神倍增自身", function(x) { return player.spirit.plus(1).log10().plus(1).pow(x) }],
+	[4, 4, "精神增长速度基于精神倍增器总量获得加成", function(x) { return player.boosts.max(1).pow(x) }],
 ]
 
 function getSpiritBoostEffectEach(n) {
@@ -19,7 +19,7 @@ function getSpiritBoostEffectEach(n) {
 
 function getSpiritBoostEffDesc(n) {
 	if (n==1) return "Multiply Spirit gain speed by "+format(getSpiritBoostEffectEach(1))
-	else if (n==2) return "Each Spirit Boost boosts Spirit gain speed by "+formatWhole(getSpiritBoostEffectEach(2).sub(1).times(100))+"%";
+	else if (n==2) return "每一个精神倍增器使得精神获取+ "+formatWhole(getSpiritBoostEffectEach(2).sub(1).times(100))+"%";
 	else return spiritBoosts[n-1][2];
 }
 

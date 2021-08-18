@@ -1,7 +1,7 @@
 const spells = {
 	timewarp: {
 		id: "timewarp",
-		name: "Time Warp",
+		name: "时间迁越",
 		unl() { return true },
 		cost: new Decimal(40),
 		effect() { 
@@ -9,11 +9,11 @@ const spells = {
 			if (worldBoostActive("arcana", 1)) eff = eff.times(worldBoostEff("arcana", 1));
 			return eff;
 		},
-		effDesc(e) { return "Instantly gain "+formatTime(e)+" of progress." },
+		effDesc(e) { return "立即获得 "+formatTime(e)+" 的进度." },
 	},
 	strikecontrol: {
 		id: "strikecontrol",
-		name: "Strike Control",
+		name: "突破控制",
 		unl() { return worldBoostActive("arcana", 3) },
 		cost: new Decimal(100),
 		effect() { 
@@ -21,7 +21,7 @@ const spells = {
 			if (worldBoostActive("arcana", 4)) eff = eff.times(worldBoostEff("arcana", 4));
 			return eff;
 		},
-		effDesc(e) { return "Add "+format(e)+" levels to all Spirit Boost effects for 30s." },
+		effDesc(e) { return "在30秒内增加所有精神倍增器的等级 (+"+format(e)+"级)." },
 		time: new Decimal(30),
 	},
 }

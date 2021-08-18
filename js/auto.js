@@ -1,7 +1,7 @@
 const auto_data = {
 	spirit_boosts: {
 		id: "spirit_boosts",
-		name: "Auto-Spirit Boosts",
+		name: "自动精神倍增器",
 		unl() { return worldBoostActive("hell", 2) },
 		tick() { buySpiritBoost(true); },
 	},

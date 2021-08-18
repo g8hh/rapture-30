@@ -66,7 +66,7 @@ function toggleAutosave() {
 }
 
 function hardReset() {
-	if (!confirm("Are you sure you want to reset everything???")) return;
+	if (!confirm("您想要重置所有东西吗???  这不会有任何加成并且会让你从头开始!")) return;
 	player = getStartPlayer();
 	save();
 	window.location.reload();
@@ -88,8 +88,8 @@ function gameLoop(diff) {
 function gainSpirit(diff) { return player.spirit = player.spirit.pow(tmp.sr).plus(tmp.sg.times(diff)).root(tmp.sr).min(tmp.sc); }
 
 function getNextFeatureDisplay() {
-	if (player.rapture.lt(1)) return "Unlock Rapture: Reach the Spirit limit.";
-	else if (player.rapture.lt(15)) return "Unlock Greater Worlds: Reach Rapture 15.";
-	else if (player.rapture.lt(25)) return "Unlock Arcana: Reach Rapture 25.";
-	else return "All Features Unlocked!";
+	if (player.rapture.lt(1)) return "解锁情感:达到精神上限.(QwQ/QwQe308汉化)";
+	else if (player.rapture.lt(15)) return "解锁更大的世界:15情感.";
+	else if (player.rapture.lt(25)) return "解锁奥秘:25情感.";
+	else return "所有内容都解锁了!";
 }
