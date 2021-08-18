@@ -29,7 +29,7 @@
 		{{getNextFeatureDisplay()}}<br><br>
 		<table>
 			<tr>
-				<td v-for="t in allTabs"><button v-if="tabUnlocks[t]()" v-bind:class="{small: true, unlocked: true, [t.toLowerCase().replaceAll(' ', '_')]: true}" v-on:click="tab = t">{{t}}</button></td>
+				<td v-for="t in allTabs"><button v-if="tabUnlocks[t]()" v-bind:class="{small: true, unlocked: true, [t.toLowerCase().replaceAll(' ', '_')]: true}" v-on:click="tab = t">{{tabName[t]}}</button></td>
 			</tr>
 		</table>
 		<br><br>
