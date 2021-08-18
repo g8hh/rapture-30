@@ -19,6 +19,16 @@
 	<script src="js/arcana.js"></script>
 </head>
 <body onload="loadGame()">
+    
+    
+    
+      <!-- 汉化文件 汉化者:QwQe308(qq3174905334) -->
+  <script src= "chs.js?07071443"></script>
+  <script src="https://cdn.jsdelivr.net/ gh/g8hh/g8hh.github.io/zh/core.js"></script>
+  
+  
+  
+  
 	<div id="app">
 		{{getNextFeatureDisplay()}}<br><br>
 		<table>
@@ -30,17 +40,17 @@
 		<div v-if="tab=='Options'">
 			<table>
 				<tr>
-					<td><button class="unlocked options" onclick="toggleAutosave()">Autosave: {{player.autosave?"ON":"OFF"}}</button></td>
-					<td><button class="small unlocked options" onclick="save()">Save</button><br>
-					<button class="small unlocked options" onclick="importSave()">Import</button></td>
-					<td><button class="small unlocked" style="background-color: #820000;" onclick="hardReset()">HARD RESET</button><br>
-					<button class="small unlocked options" onclick="exportSave()">Export</button></td>
+					<td><button class="unlocked options" onclick="toggleAutosave()">自动存档: {{player.autosave?"开":"关"}}</button></td>
+					<td><button class="small unlocked options" onclick="save()">存档</button><br>
+					<button class="small unlocked options" onclick="importSave()">导入</button></td>
+					<td><button class="small unlocked" style="background-color: #820000;" onclick="hardReset()">硬重置</button><br>
+					<button class="small unlocked options" onclick="exportSave()">导出</button></td>
 				</tr>
 			</table>
 		</div>
 		<div v-if="tab=='Main'">
-			You have <span class="bigtxt spirit">{{format(player.spirit)}}</span> Spirit (limit of {{format(tmp.sc)}}).<br><br>
-			You have <span class="spirit">{{formatWhole(player.boosts)}}</span> Spirit Boosts<br>
+			您有 <span class="bigtxt spirit">{{format(player.spirit)}}</span> 精神 (上限是 {{format(tmp.sc)}}).<br><br>
+			您有 <span class="spirit">{{formatWhole(player.boosts)}}</span> 精神倍增器<br>
 			<button v-bind:class="{big: true, locked: player.spirit.lt(getSpiritBoostReq()), unlocked: player.spirit.gte(getSpiritBoostReq())}" onclick="buySpiritBoost()">{{getSpiritBoostDesc()}}<br><br>Cost: {{format(getSpiritBoostReq())}}</button><br><br>
 			<div v-for="(b,i) in spiritBoosts" v-if="tmp.sb[i+1].rewards.plus(tmp.esb[i+1]).gt(0)">{{getSpiritBoostEffDesc(i+1)}} <b>[{{formatWhole(tmp.sb[i+1].rewards)+(tmp.esb[i+1].gt(0)?("+"+format(tmp.esb[i+1])):"")}}]</b>: {{format(tmp.sb[i+1].eff)}}x</div>
 		</div>
@@ -48,31 +58,31 @@
 			<table><tr><td v-for="a in auto_data" v-if="a.unl()" class="autoDiv"><h3>{{a.name}}</h3><br><br><input type="checkbox" v-model="player.autos[a.id]"></input></td></tr></table>
 		</div>
 		<div v-if="tab=='Rapture'">
-			Rapture <span class="bigtxt rp">{{formatWhole(player.rapture)}}</span>, which is bringing Spirit to the <span class="bigtxt rp">{{format(tmp.sr)}}</span>th root<br><br>
-			<button class="rapture unlocked" v-if="player.spirit.gte(tmp.sc)" onclick="doRapture()">Ascend to the next Rapture</button><br><br>
-			You have <span class="bigtxt rp">{{formatWhole(player.raptureEnergy)}}</span> Rapture Energy<br><br>
-			<button v-if="player.rapture.gt(0)" style="cursor:pointer;height:60px;" onclick="doRapture(true)">Force Rapture Reset</button>
-			<button v-if="player.raptureUpgs.length>0" style="cursor:pointer;height:60px;" onclick="respecRaptureUpgs()">Respec Rapture Upgrades</button><br>
+			情感 <span class="bigtxt rp">{{formatWhole(player.rapture)}}</span>, 使得您的点数变为其 <span class="bigtxt rp">{{format(tmp.sr)}}</span>次根<br><br>
+			<button class="rapture unlocked" v-if="player.spirit.gte(tmp.sc)" onclick="doRapture()">飞升以获得下个情感</button><br><br>
+			您有 <span class="bigtxt rp">{{formatWhole(player.raptureEnergy)}}</span> 情感能量<br><br>
+			<button v-if="player.rapture.gt(0)" style="cursor:pointer;height:60px;" onclick="doRapture(true)">强制情感重置</button>
+			<button v-if="player.raptureUpgs.length>0" style="cursor:pointer;height:60px;" onclick="respecRaptureUpgs()">重置情感升级</button><br>
 			<table>
 				<tr v-for="r in raptureUpgs.rows">
-					<td v-for="c in raptureUpgs.cols" v-if="raptureUpgs[r*10+c] && raptureUpgs[r*10+c].unl()"><button v-bind:class="{big: true, rapture: true, locked: (player.raptureEnergy.lt(raptureUpgs[r*10+c].cost)&&!player.raptureUpgs.includes(r*10+c)), unlocked: (player.raptureEnergy.gte(raptureUpgs[r*10+c].cost)&&!player.raptureUpgs.includes(r*10+c)), bought: player.raptureUpgs.includes(r*10+c)}" v-on:click="buyRaptureUpg(r*10+c)" v-bind:style="{'font-size': (raptureUpgs[r*10+c].size?raptureUpgs[r*10+c].size:'14px')}">{{raptureUpgs[r*10+c].desc}}<br><br>Cost: {{formatWhole(raptureUpgs[r*10+c].cost)}} Rapture Energy<br><br><span v-if="raptureUpgs[r*10+c].effect">Currently: {{raptureUpgs[r*10+c].effDesc(tmp.ru[r*10+c])}}</span></button></td>
+					<td v-for="c in raptureUpgs.cols" v-if="raptureUpgs[r*10+c] && raptureUpgs[r*10+c].unl()"><button v-bind:class="{big: true, rapture: true, locked: (player.raptureEnergy.lt(raptureUpgs[r*10+c].cost)&&!player.raptureUpgs.includes(r*10+c)), unlocked: (player.raptureEnergy.gte(raptureUpgs[r*10+c].cost)&&!player.raptureUpgs.includes(r*10+c)), bought: player.raptureUpgs.includes(r*10+c)}" v-on:click="buyRaptureUpg(r*10+c)" v-bind:style="{'font-size': (raptureUpgs[r*10+c].size?raptureUpgs[r*10+c].size:'14px')}">{{raptureUpgs[r*10+c].desc}}<br><br>价格: {{formatWhole(raptureUpgs[r*10+c].cost)}} 情感能量<br><br><span v-if="raptureUpgs[r*10+c].effect">当前效果: {{raptureUpgs[r*10+c].effDesc(tmp.ru[r*10+c])}}</span></button></td>
 				</tr>
 			</table>
 		</div>
 		<div v-if="tab=='Greater Worlds'">
-			You have created <span class="bigtxt worlds">{{formatWhole(tmp.wc)}}</span> Worlds (next at Rapture {{formatWhole(tmp.ntwc)}}).<br><br>
-			<button style="cursor:pointer;height:60px;" onclick="respecWorldBoosts()">Respec All World Boosts</button><br>
+			您创造了 <span class="bigtxt worlds">{{formatWhole(tmp.wc)}}</span> 个世界 (下一个在情感 {{formatWhole(tmp.ntwc)}}).<br><br>
+			<button style="cursor:pointer;height:60px;" onclick="respecWorldBoosts()">重置所有世界加成</button><br>
 			<table>
 				<tr>
-					<td v-for="world in worlds" class="worldBoost" v-if="world.unl()" v-bind:style="{'background-color': world.col}"><span class="slightlyBigText"><br>{{world.cName}} Boosts: {{formatWhole(player.worldBoosts[world.name])}}</span><br><br><button v-bind:class="{big: true, greater_worlds: true, locked: (tmp.wc.lt(1)&&player.worldBoosts[world.name].lt(world.boosts.length)), unlocked: (tmp.wc.gte(1)&&player.worldBoosts[world.name].lt(world.boosts.length)), bought: player.worldBoosts[world.name].gte(world.boosts.length)}" v-on:click="world.buyBoost()">{{(player.worldBoosts[world.name].gte(world.boosts.length))?"MAXED":(world.boosts[player.worldBoosts[world.name].toNumber()]+(world.boostCurrent[player.worldBoosts[world.name].toNumber()]?(": "+format(tmp.wb[world.name][player.worldBoosts[world.name]])+"x"):""))}}<span v-if="player.worldBoosts[world.name].lt(world.boosts.length)"><br><br>Cost: 1 Created World</span></button><br><br><span v-html="world.displayBoosts()"></span><br></td>
+					<td v-for="world in worlds" class="worldBoost" v-if="world.unl()" v-bind:style="{'background-color': world.col}"><span class="slightlyBigText"><br>{{world.cName}} 加成: {{formatWhole(player.worldBoosts[world.name])}}</span><br><br><button v-bind:class="{big: true, greater_worlds: true, locked: (tmp.wc.lt(1)&&player.worldBoosts[world.name].lt(world.boosts.length)), unlocked: (tmp.wc.gte(1)&&player.worldBoosts[world.name].lt(world.boosts.length)), bought: player.worldBoosts[world.name].gte(world.boosts.length)}" v-on:click="world.buyBoost()">{{(player.worldBoosts[world.name].gte(world.boosts.length))?"已达最大":(world.boosts[player.worldBoosts[world.name].toNumber()]+(world.boostCurrent[player.worldBoosts[world.name].toNumber()]?(": "+format(tmp.wb[world.name][player.worldBoosts[world.name]])+"x"):""))}}<span v-if="player.worldBoosts[world.name].lt(world.boosts.length)"><br><br>花费: 1 已创建的世界</span></button><br><br><span v-html="world.displayBoosts()"></span><br></td>
 				</tr>
 			</table>
 		</div>
 		<div v-if="tab=='Arcana'">
-			You have <span class="bigtxt arc">{{formatWhole(player.arcana.soul)}}</span>/<span class="bigtxt arc">{{formatWhole(tmp.asl)}}</span> Arcanic Soul.<br><br>
+			您有 <span class="bigtxt arc">{{formatWhole(player.arcana.soul)}}</span>/<span class="bigtxt arc">{{formatWhole(tmp.asl)}}</span> 奥秘灵魂.<br><br>
 			<table>
 				<tr>
-					<td v-for="spell in spells" v-if="spell.unl()"><button class="spell" v-on:click="activateSpell(spell.id)"><h3>{{spell.name}}</h3><br><br>{{spell.effDesc(tmp.ase[spell.id])}}<br><br>Cost: {{formatWhole(spell.cost)}} Arcanic Soul<br><br>{{player.arcana.spellTimes[spell.id]?("Time Left: "+formatTime(player.arcana.spellTimes[spell.id])):""}}</button></td>
+					<td v-for="spell in spells" v-if="spell.unl()"><button class="spell" v-on:click="activateSpell(spell.id)"><h3>{{spell.name}}</h3><br><br>{{spell.effDesc(tmp.ase[spell.id])}}<br><br>价格: {{formatWhole(spell.cost)}} 奥秘灵魂<br><br>{{player.arcana.spellTimes[spell.id]?("剩余时间: "+formatTime(player.arcana.spellTimes[spell.id])):""}}</button></td>
 				</tr>
 			</table>
 		</div>
