@@ -1,0 +1,221 @@
+* {
+	font-family: Geneva, sans-serif;
+	text-align: center;
+	transition-duration: 0.2s;
+}
+
+body {
+	background-color: black;
+	color: white;
+	text-shadow: 0px 0px 7px white;
+	overflow-x: hidden;
+}
+
+table, tr, .table {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+	flex-flow: column wrap;
+}
+
+tr, .tableRow {
+    flex-flow: row wrap;
+}
+
+.reallybigtxt {
+	font-size: 80px;
+	font-weight: bold;
+}
+
+.bigtxt {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.slightlyBigText {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.smalltxt {
+	font-size: 11px;
+}
+
+button {
+	border: solid 3px black;
+	border-radius: 25%;
+	background-color: white;
+    font-size: 14px;
+	cursor: default;
+	width: 100px;
+	height: 100px;
+}
+
+button.small {
+	width: 75px;
+	height: 50px;
+}
+
+button.big {
+	width: 150px;
+	height: 150px;
+}
+
+button.reallyBig {
+	width: 200px;
+	height: 200px;
+}
+
+.autoDiv {
+	width: 200px;
+	height: 200px;
+	border: 1px solid white;
+	border-radius: 15%;
+}
+
+.locked {
+	background-color: #820000;
+	color: white;
+	cursor: not-allowed;
+}
+
+.unlocked {
+	background-color: #607564;
+	color: white;
+	cursor: pointer;
+}
+
+.unlocked:hover {
+	background-color: #74b080;
+}
+
+.bought {
+	background-color: #13f23d;
+	color: black;
+	cursor: default;
+}
+
+.spirit {
+	color: #f0bfff;
+	text-shadow: 0px 0px 7px #f0bfff;
+}
+
+.rp {
+	background: linear-gradient(60deg, #19e8ff, #19b2ff, #147aff);
+	background-size: 300 300%;
+	background-position: 0% 100%;
+	-webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+	color: transparent;
+	animation: bgGradient 8s linear infinite;
+}
+
+.rapture.unlocked {
+	background-color: #6efff5;
+	color: black;
+}
+
+.rapture.unlocked:hover {
+	background-color: #b5fffa;
+}
+
+.greater_worlds.unlocked {
+	background: linear-gradient(45deg, #564eb5, #7d73f0, #c2a1ff);
+	color: white;
+	background-size: 300 300%;
+	background-position: 0% 100%;
+	animation: bgGradient 8s ease infinite;
+}
+
+.greater_worlds.unlocked:hover {
+	filter: brightness(120%);
+}
+
+.worlds {
+	background: linear-gradient(135deg, #564eb5, #7d73f0, #c2a1ff);
+	background-size: 300 300%;
+	background-position: 0% 100%;
+	-webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+	color: transparent;
+	animation: bgGradient 8s ease infinite;
+}
+
+.worldBoost {
+	border-radius: 25%;
+	min-height: 250px;
+	width: 250px;
+	padding: 20px;
+}
+
+.auto.unlocked {
+	background-color: #736e64;
+	color: white;
+}
+
+.auto.unlocked:hover {
+	filter: brightness(120%);
+}
+
+.arcana.unlocked {
+	background: radial-gradient(#632d70, #a1379f, #872a76, #b83786, #80264b);
+	color: white;
+	background-size: 100 100%;
+	background-position: 0% 0%;
+	animation: bgSize 20s ease infinite;
+}
+
+.arcana.unlocked:hover {
+	filter: brightness(120%);
+}
+
+.arc {
+	background: radial-gradient(#632d70, #a1379f, #872a76, #b83786, #80264b);
+	background-size: 100 100%;
+	background-position: 0% 0%;
+	-webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+	color: transparent;
+	animation: bgSize 10s ease infinite;
+}
+
+.spell {
+	background: radial-gradient(#632d70, #a1379f, #872a76, #b83786, #80264b);
+	background-size: 100 100%;
+	color: white;
+	border-radius: 25%;
+	height: 250px;
+	width: 250px;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.spell:hover {
+	filter: brightness(120%);
+}
+
+@keyframes bgGradient {
+	0% {
+		background-position: 0% 100%;
+	}
+	100% {
+		background-position: 300% 400%;
+	}
+}
+
+@keyframes bgSize {
+	0% {
+		background-size: 100% 100%;
+		background-position: 0% 0%;
+	}
+	50% {
+		background-size: 200% 200%;
+		background-position: 50% 50%;
+	}
+	100% {
+		background-size: 100% 100%;
+		background-position: 0% 0%;
+	}
+}

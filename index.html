@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<head>
+	<title>Rapture 100</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="js/break_eternity.js"></script>
+	<script src="js/playerControl.js"></script>
+	<script src="js/format.js"></script>
+	<script src="js/temp.js"></script>
+	<script src="js/game.js"></script>
+	<script src="js/v.js"></script>
+	
+	<script src="js/auto.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/rapture.js"></script>
+	<script src="js/greater_worlds.js"></script>
+	<script src="js/arcana.js"></script>
+</head>
+<body onload="loadGame()">
+    
+    
+  
+  
+  
+  
+	<div id="app">
+		{{getNextFeatureDisplay()}}<br><br>
+		<table>
+			<tr>
+				<td v-for="t in allTabs"><button v-if="tabUnlocks[t]()" v-bind:class="{small: true, unlocked: true, [t.toLowerCase().replaceAll(' ', '_')]: true}" v-on:click="tab = t">{{tabName[t]}}</button></td>
+			</tr>
+		</table>
+		<br><br>
+		<div v-if="tab=='Options'">
+			<table>
+				<tr>
+					<td><button class="unlocked options" onclick="toggleAutosave()">自动存档: {{player.autosave?"开":"关"}}</button></td>
+					<td><button class="small unlocked options" onclick="save()">存档</button><br>
+					<button class="small unlocked options" onclick="importSave()">导入</button></td>
+					<td><button class="small unlocked" style="background-color: #820000;" onclick="hardReset()">硬重置</button><br>
+					<button class="small unlocked options" onclick="exportSave()">导出</button></td>
+				</tr>
+			</table>
+		</div>
+		<div v-if="tab=='Main'">
+			您有 <span class="bigtxt spirit">{{format(player.spirit)}}</span> 精神 (上限是 {{format(tmp.sc)}}).<br><br>
+			您有 <span class="spirit">{{formatWhole(player.boosts)}}</span> 精神倍增器<br>
+			<button v-bind:class="{big: true, locked: player.spirit.lt(getSpiritBoostReq()), unlocked: player.spirit.gte(getSpiritBoostReq())}" onclick="buySpiritBoost()">{{getSpiritBoostDesc()}}<br><br>价格: {{format(getSpiritBoostReq())}}</button><br><br>
+			<div v-for="(b,i) in spiritBoosts" v-if="tmp.sb[i+1].rewards.plus(tmp.esb[i+1]).gt(0)">{{getSpiritBoostEffDesc(i+1)}} <b>[{{formatWhole(tmp.sb[i+1].rewards)+(tmp.esb[i+1].gt(0)?("+"+format(tmp.esb[i+1])):"")}}]</b>: {{format(tmp.sb[i+1].eff)}}x</div>
+		</div>
+		<div v-if="tab=='Auto'">
+			<table><tr><td v-for="a in auto_data" v-if="a.unl()" class="autoDiv"><h3>{{a.name}}</h3><br><br><input type="checkbox" v-model="player.autos[a.id]"></input></td></tr></table>
+		</div>
+		<div v-if="tab=='Rapture'">
+			情感 <span class="bigtxt rp">{{formatWhole(player.rapture)}}</span>, 使得您的精神(最终值)变为其 <span class="bigtxt rp">{{format(tmp.sr)}}</span>次根<br><br>
+			<button class="rapture unlocked" v-if="player.spirit.gte(tmp.sc)" onclick="doRapture()">飞升以获得下个情感</button><br><br>
+			您有 <span class="bigtxt rp">{{formatWhole(player.raptureEnergy)}}</span> 情感能量<br><br>
+			<button v-if="player.rapture.gt(0)" style="cursor:pointer;height:60px;" onclick="doRapture(true)">强制情感重置</button>
+			<button v-if="player.raptureUpgs.length>0" style="cursor:pointer;height:60px;" onclick="respecRaptureUpgs()">重置情感升级</button><br>
+			<table>
+				<tr v-for="r in raptureUpgs.rows">
+					<td v-for="c in raptureUpgs.cols" v-if="raptureUpgs[r*10+c] && raptureUpgs[r*10+c].unl()"><button v-bind:class="{big: true, rapture: true, locked: (player.raptureEnergy.lt(raptureUpgs[r*10+c].cost)&&!player.raptureUpgs.includes(r*10+c)), unlocked: (player.raptureEnergy.gte(raptureUpgs[r*10+c].cost)&&!player.raptureUpgs.includes(r*10+c)), bought: player.raptureUpgs.includes(r*10+c)}" v-on:click="buyRaptureUpg(r*10+c)" v-bind:style="{'font-size': (raptureUpgs[r*10+c].size?raptureUpgs[r*10+c].size:'14px')}">{{raptureUpgs[r*10+c].desc}}<br><br>价格: {{formatWhole(raptureUpgs[r*10+c].cost)}} 情感能量<br><br><span v-if="raptureUpgs[r*10+c].effect">当前效果: {{raptureUpgs[r*10+c].effDesc(tmp.ru[r*10+c])}}</span></button></td>
+				</tr>
+			</table>
+		</div>
+		<div v-if="tab=='Greater Worlds'">
+			您创造了 <span class="bigtxt worlds">{{formatWhole(tmp.wc)}}</span> 个世界 (下一个在情感 {{formatWhole(tmp.ntwc)}}).<br><br>
+			<button style="cursor:pointer;height:60px;" onclick="respecWorldBoosts()">重置所有世界加成</button><br>
+			<table>
+				<tr>
+					<td v-for="world in worlds" class="worldBoost" v-if="world.unl()" v-bind:style="{'background-color': world.col}"><span class="slightlyBigText"><br>{{world.cName}} 加成: {{formatWhole(player.worldBoosts[world.name])}}</span><br><br><button v-bind:class="{big: true, greater_worlds: true, locked: (tmp.wc.lt(1)&&player.worldBoosts[world.name].lt(world.boosts.length)), unlocked: (tmp.wc.gte(1)&&player.worldBoosts[world.name].lt(world.boosts.length)), bought: player.worldBoosts[world.name].gte(world.boosts.length)}" v-on:click="world.buyBoost()">{{(player.worldBoosts[world.name].gte(world.boosts.length))?"已达最大":(world.boosts[player.worldBoosts[world.name].toNumber()]+(world.boostCurrent[player.worldBoosts[world.name].toNumber()]?(": "+format(tmp.wb[world.name][player.worldBoosts[world.name]])+"x"):""))}}<span v-if="player.worldBoosts[world.name].lt(world.boosts.length)"><br><br>花费: 1 已创建的世界</span></button><br><br><span v-html="world.displayBoosts()"></span><br></td>
+				</tr>
+			</table>
+		</div>
+		<div v-if="tab=='Arcana'">
+			您有 <span class="bigtxt arc">{{formatWhole(player.arcana.soul)}}</span>/<span class="bigtxt arc">{{formatWhole(tmp.asl)}}</span> 奥秘灵魂.<br><br>
+			<table>
+				<tr>
+					<td v-for="spell in spells" v-if="spell.unl()"><button class="spell" v-on:click="activateSpell(spell.id)"><h3>{{spell.name}}</h3><br><br>{{spell.effDesc(tmp.ase[spell.id])}}<br><br>价格: {{formatWhole(spell.cost)}} 奥秘灵魂<br><br>{{player.arcana.spellTimes[spell.id]?("剩余时间: "+formatTime(player.arcana.spellTimes[spell.id])):""}}</button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<!--客服 开始-->
+<script src="https://cdn.jsdelivr.net/gh/g8hh/g8hh.github.io/static/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/g8hh/g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
+<script src="https://cdn.jsdelivr.net/gh/g8hh/g8hh.github.io/static/js/kf.js"></script>
+<!-- 客服 结束 -->
+	<!--站长统计-->
+    <div style="display: none">
+        <script type="text/javascript" src="//s13.cnzz.com/z_stat.php?id=1266957935&web_id=1266957935"></script>
+    </div>
+</body>
