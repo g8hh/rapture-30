@@ -98,7 +98,7 @@ function gainSpirit(diff) { return player.spirit = player.spirit.pow(tmp.sr).plu
 
 function getNextFeatureDisplay() {
 	if (player.rapture.lt(1)) return "解锁情感:达到精神上限.(QwQ/QwQe308汉化)";
-	else if (player.rapture.lt(15)) return "解锁更大的世界:15情感.";
+	else if (player.rapture.lt(15)) return "解锁世界:15情感.";
 	else if (player.rapture.lt(25)) return "解锁奥秘:25情感.";
 	else return "所有内容都解锁了!";
 }
