@@ -10,7 +10,7 @@ var tabName ={
     "Main":"主页面",
     "Auto":"自动化",
     "Rapture":"情感",
-    "Greater Worlds":"更大的世界",
+    "Greater Worlds":"世界",
     "Arcana":"奥秘"
 }
 
