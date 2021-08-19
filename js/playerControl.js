@@ -10,6 +10,7 @@ function getStartPlayer() {
 		worldsSpent: new Decimal(0),
 		worldBoosts: {},
 		autos: {},
+                autosave: true,
 		arcana: {
 			soul: new Decimal(0),
 			spellTimes: {},
